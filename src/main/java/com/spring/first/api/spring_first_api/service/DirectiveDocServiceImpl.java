@@ -22,9 +22,9 @@ public class DirectiveDocServiceImpl implements DirectiveDocService {
             List<DirectiveDoc> directiveDocList = directiveDocRepository.findAll();
 
             return directiveDocList;
-            
+
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'getDirectiveDocAll'");
+            throw new RuntimeException("Error fetching all directive docs: " + e.getMessage());
         }
     }
 
