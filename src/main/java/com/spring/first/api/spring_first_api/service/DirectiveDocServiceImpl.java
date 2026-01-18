@@ -1,6 +1,7 @@
 package com.spring.first.api.spring_first_api.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,17 @@ public class DirectiveDocServiceImpl implements DirectiveDocService {
             List<DirectiveDoc> directiveDocList = directiveDocRepository.findAll();
 
             return directiveDocList;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching all directive docs: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<DirectiveDoc> getDirectiveId(int id) {
+           try {
+            Optional<DirectiveDoc> directiveDoc = directiveDocRepository.findById(id);
+            return directiveDoc;
 
         } catch (Exception e) {
             throw new RuntimeException("Error fetching all directive docs: " + e.getMessage());
