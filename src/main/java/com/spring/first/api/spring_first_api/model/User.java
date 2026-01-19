@@ -24,6 +24,14 @@ public class User {
     @Column(name = "userLastName") //
     private String userLastName;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userTypeId", referencedColumnName = "roleId", insertable = false, updatable = false)
+    private RoleSystem role;
+
+    @Column(name = "userTypeId") //
+    private Integer userTypeId;
+
     @Column(name = "userCreateAt", updatable = false) //
     private LocalDateTime userCreateAt;
 

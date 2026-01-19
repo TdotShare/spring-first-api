@@ -1,13 +1,11 @@
-package com.spring.first.api.spring_first_api.repository;
+package com.spring.first.api.spring_first_api.service;
 
 import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.spring.first.api.spring_first_api.dto.UserRoleView;
 import com.spring.first.api.spring_first_api.model.User;
 
-public interface UserRepository extends JpaRepository<User , Integer> {
+public interface UserService {
     Optional<User> findByUserUsername(String username);
     Optional<UserRoleView> findProjectedByUserUsername(String username);
 }
