@@ -1,5 +1,5 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
  Source Server         : localhost
  Source Server Type    : MySQL
@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 18/01/2026 22:16:40
+ Date: 20/01/2026 15:31:14
 */
 
 SET NAMES utf8mb4;
@@ -121,11 +121,6 @@ CREATE TABLE `elv_user`  (
   `userCreateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `userUpdateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userLastLoginAt` datetime NULL DEFAULT NULL,
-  `user_create_at` datetime(6) NULL DEFAULT NULL,
-  `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `user_first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `user_last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `user_username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
@@ -153,8 +148,6 @@ CREATE TABLE `hrss_development_type`  (
   `develTypeActive` int NULL DEFAULT NULL,
   `develTypeCreateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `develTypeUpdateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `devel_type_active` int NULL DEFAULT NULL,
-  `devel_type_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`develTypeId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
@@ -174,9 +167,6 @@ CREATE TABLE `hrss_directive_doc`  (
   `directiveDocUsername` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'เก็บ username',
   `directiveDocCreateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `directiveDocUpdateAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `directive_doc_issued_date` date NULL DEFAULT NULL,
-  `directive_doc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `directive_doc_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`directiveDocId`) USING BTREE,
   INDEX `directiveDocTypeId`(`directiveDocTypeId` ASC) USING BTREE,
   CONSTRAINT `hrss_directive_doc_ibfk_1` FOREIGN KEY (`directiveDocTypeId`) REFERENCES `hrss_directive_type` (`directiveTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
