@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.first.api.spring_first_api.dto.DirectiveDocDTO;
 import com.spring.first.api.spring_first_api.model.DirectiveDoc;
 import com.spring.first.api.spring_first_api.service.DirectiveDocService;
 
@@ -23,7 +24,7 @@ public class DircetiveDocController {
     }
 
     @GetMapping("/getDirectiveDocAll")
-    public List<DirectiveDoc> getDirectiveDocAll(){
+    public List<DirectiveDocDTO> getDirectiveDocAll(){
         return directiveDocService.getDirectiveDocAll();
     }
 

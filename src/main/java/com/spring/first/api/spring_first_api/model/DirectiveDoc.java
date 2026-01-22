@@ -15,8 +15,10 @@ public class DirectiveDoc {
     @Column(name = "directiveDocNumber") //
     private String directiveDocNumber;
 
-    @Column(name = "directiveDocTypeId") //
-    private Integer directiveDocTypeId;
+    // เปลี่ยนจาก Integer เป็น Object DirectiveType
+    @ManyToOne
+    @JoinColumn(name = "directiveDocTypeId", referencedColumnName = "directiveTypeId")
+    private DirectiveType directiveType;
 
     @Column(name = "directiveDocName") //
     private String directiveDocName;
@@ -46,8 +48,13 @@ public class DirectiveDoc {
         return directiveDocId;
     }
 
-    public void setDirectiveDocId(Integer directiveDocId) {
-        this.directiveDocId = directiveDocId;
+    // แก้ไข Getter/Setter
+    public DirectiveType getDirectiveType() {
+        return directiveType;
+    }
+
+    public void setDirectiveType(DirectiveType directiveType) {
+        this.directiveType = directiveType;
     }
 
     public String getDirectiveDocNumber() {

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.first.api.spring_first_api.dto.DirectiveDocDTO;
 import com.spring.first.api.spring_first_api.model.DirectiveDoc;
 import com.spring.first.api.spring_first_api.repository.DirectiveDocRepository;
 
@@ -18,17 +19,15 @@ public class DirectiveDocServiceImpl implements DirectiveDocService {
     }
 
     @Override
-    public List<DirectiveDoc> getDirectiveDocAll() {
+    public List<DirectiveDocDTO> getDirectiveDocAll() {
         try {
-            List<DirectiveDoc> directiveDocList = directiveDocRepository.findAll();
-
-            return directiveDocList;
-
+            // เรียกใช้ Query ที่ Map เข้า DTO โดยตรง
+            return directiveDocRepository.findAllDirectiveDTOs();
         } catch (Exception e) {
-            throw new RuntimeException("Error fetching all directive docs: " + e.getMessage());
+            throw new RuntimeException("Error fetching directive DTOs: " + e.getMessage());
         }
     }
-
+    
     @Override
     public Optional<DirectiveDoc> getDirectiveId(int id) {
            try {
