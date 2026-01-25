@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.spring.first.api.spring_first_api.dto.DirectiveDocDTO;
+import com.spring.first.api.spring_first_api.exception.ResourceNotFoundException;
 import com.spring.first.api.spring_first_api.model.DirectiveDoc;
 import com.spring.first.api.spring_first_api.repository.DirectiveDocRepository;
 
@@ -27,16 +28,12 @@ public class DirectiveDocServiceImpl implements DirectiveDocService {
             throw new RuntimeException("Error fetching directive DTOs: " + e.getMessage());
         }
     }
-    
+
     @Override
     public Optional<DirectiveDoc> getDirectiveId(int id) {
-           try {
-            Optional<DirectiveDoc> directiveDoc = directiveDocRepository.findById(id);
-            return directiveDoc;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error fetching all directive docs: " + e.getMessage());
-        }
+        // ถ้าหาไม่เจอ ให้โยน Exception ที่เราสร้างขึ้นเอง
+        return Optional.ofNullable(directiveDocRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("ไม่พบเอกสารรหัส: " + id)));
     }
 
 }
