@@ -48,6 +48,10 @@ public class DirectiveDoc {
         return directiveDocId;
     }
 
+    public void setDirectiveDocId(Integer directiveDocId) {
+        this.directiveDocId = directiveDocId;
+    }
+
     // แก้ไข Getter/Setter
     public DirectiveType getDirectiveType() {
         return directiveType;

@@ -26,6 +26,10 @@ public class DirectiveDocDTO {
         this.fileName = fileName;
     }
 
+    public DirectiveDocDTO(){
+        
+    }
+
     public Integer getId() {
         return id;
     }
