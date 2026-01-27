@@ -82,12 +82,12 @@ public class DirectiveDocControllerTest {
     void testGetDirectiveId_NotFound() throws Exception {
         // ในกรณีที่ Service โยน ResourceNotFoundException (ตามที่เขียนใน ServiceImpl)
         // MockMvc จะตรวจจับ Exception นั้น
-        when(directiveDocService.getDirectiveId(99)).thenThrow(new RuntimeException("ไม่พบเอกสารรหัส: 99"));
+        when(directiveDocService.getDirectiveId(99))
+        .thenThrow(new com.spring.first.api.spring_first_api.exception.ResourceNotFoundException("ไม่พบเอกสารรหัส: " + 99));
 
         mockMvc.perform(get("/dircetiveDoc/getDirectiveDoc/99")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError()); // หรือ status อื่นๆ ตามที่ GlobalExceptionHandler
-                                                              // จัดการไว้
+                .andExpect(status().isNotFound());
     }
 
     @Test
