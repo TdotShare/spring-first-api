@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -21,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.spring.first.api.spring_first_api.dto.DirectiveDocDTO;
 import com.spring.first.api.spring_first_api.model.DirectiveDoc;
 import com.spring.first.api.spring_first_api.service.DirectiveDocService;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(DircetiveDocController.class) // ทดสอบเฉพาะ Controller ตัวนี้
 public class DirectiveDocControllerTest {
@@ -83,6 +86,35 @@ public class DirectiveDocControllerTest {
 
         mockMvc.perform(get("/dircetiveDoc/getDirectiveDoc/99")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError()); // หรือ status อื่นๆ ตามที่ GlobalExceptionHandler จัดการไว้
+                .andExpect(status().isInternalServerError()); // หรือ status อื่นๆ ตามที่ GlobalExceptionHandler
+                                                              // จัดการไว้
+    }
+
+    @Test
+    @DisplayName("กรณีส่ง ID เป็นตัวอักษร - ควรตอบกลับด้วย 400 Bad Request")
+    void testGetDirectiveId_BadRequest_StringId() throws Exception {
+        // เราส่ง "abc" แทนที่จะเป็นตัวเลข 1, 2, 3
+        mockMvc.perform(get("/dircetiveDoc/getDirectiveDoc/abc")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print()) // ช่วยแสดงรายละเอียด Request/Response ใน Debug Console
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("กรณีหาข้อมูลไม่พบ - ควรตอบกลับด้วย Exception ที่เรานิยามไว้")
+    void testGetDirectiveId_NotFound_RealScenario() throws Exception {
+        // Arrange: เมื่อเรียก ID 99 ให้โยน ResourceNotFoundException ตามที่มีใน
+        // ServiceImpl
+        int missingId = 99;
+        when(directiveDocService.getDirectiveId(missingId))
+                .thenThrow(new com.spring.first.api.spring_first_api.exception.ResourceNotFoundException(
+                        "ไม่พบเอกสารรหัส: " + missingId));
+
+        // Act & Assert
+        mockMvc.perform(get("/dircetiveDoc/getDirectiveDoc/" + missingId))
+                .andDo(print())
+                // หมายเหตุ: ถ้ายังไม่ได้ทำ GlobalExceptionHandler จะได้ 500 หรือ 404
+                // ขึ้นอยู่กับการตั้งค่า Spring
+                .andExpect(status().isNotFound());
     }
 }

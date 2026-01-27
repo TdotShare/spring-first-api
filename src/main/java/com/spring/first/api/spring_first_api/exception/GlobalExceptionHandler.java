@@ -1,31 +1,35 @@
 package com.spring.first.api.spring_first_api.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import com.spring.first.api.spring_first_api.dto.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1. ดักจับ Error กรณีหาข้อมูลไม่เจอ (Custom Exception)
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "Not Found",
-                ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+// ดักจับกรณีส่งตัวแปรผิดประเภท (เช่น ส่ง String ในช่อง int)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", "รูปแบบข้อมูลไม่ถูกต้อง: " + ex.getValue());
+        body.put("error", "Bad Request");
+        
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST); // ตอบกลับด้วย 400
     }
 
-    // 2. ดักจับ Error ทั่วไป (เช่น Database พัง, ลอจิกผิดพลาด)
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal Server Error",
-                "เกิดข้อผิดพลาดในระบบ: " + ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    // ดักจับ ResourceNotFoundException ที่คุณสร้างไว้
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", ex.getMessage());
+        
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND); // ตอบกลับด้วย 404
     }
 }
