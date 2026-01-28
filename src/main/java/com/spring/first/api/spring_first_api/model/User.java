@@ -50,7 +50,7 @@ public class User {
     private Integer userStatus;
 
     @Column(name = "userCampusId")
-    private Integer userCampusId;
+    private String userCampusId;
 
     @Column(name = "userSignatureFileName")
     private String userSignatureFileName;
@@ -167,11 +167,11 @@ public class User {
         this.userStatus = userStatus;
     }
 
-    public Integer getUserCampusId() {
+    public String getUserCampusId() {
         return userCampusId;
     }
 
-    public void setUserCampusId(Integer userCampusId) {
+    public void setUserCampusId(String userCampusId) {
         this.userCampusId = userCampusId;
     }
 

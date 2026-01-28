@@ -1,12 +1,17 @@
 package com.spring.first.api.spring_first_api.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.first.api.spring_first_api.dto.UserCampusDTO;
 import com.spring.first.api.spring_first_api.dto.UserRoleView;
+import com.spring.first.api.spring_first_api.dto.UserShortInfoView;
 import com.spring.first.api.spring_first_api.model.User;
 import com.spring.first.api.spring_first_api.service.UserService;
 
@@ -32,5 +37,15 @@ public class UserController {
         return userService.findProjectedByUserUsername(name)
                 .map(user -> ResponseEntity.ok(user)) // ถ้าเจอ ส่ง 200 OK พร้อมข้อมูล
                 .orElseGet(() -> ResponseEntity.notFound().build()); // ถ้าไม่เจอ ส่ง 404 Not Found
+    }
+
+    @GetMapping("/findAllUserCampus")
+    public List<UserCampusDTO> findAllUserCampus() {
+        return userService.findAllUserCampus();
+    }
+
+    @GetMapping("/sp_getUserById/{id}")
+    public List<UserShortInfoView> sp_getUserById(@PathVariable(required = true , name = "id") Integer id) {
+        return userService.sp_getUserById(id);
     }
 }
